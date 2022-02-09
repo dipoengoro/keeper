@@ -20,7 +20,7 @@ function Input(props) {
   }
   
   function handleSubmit(event) {
-    onAddNote(note);
+    onAddNote({title: title.trim(), content: content.trim()});
     setNote({
       title: '',
       content: ''
@@ -43,7 +43,6 @@ function Input(props) {
             value={title}
             placeholder="Title"
             autoComplete="off"
-            autoFocus
           />
         )}
         <textarea
@@ -53,6 +52,8 @@ function Input(props) {
           placeholder="Take a note..."
           rows={isExpanded ? 3 : 1}
           value={content}
+          autoCapitalize="off"
+          autoFocus
         />
         <Zoom in={true}>
           <Fab

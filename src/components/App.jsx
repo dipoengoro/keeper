@@ -9,7 +9,10 @@ function App() {
   const [notes, setNotes] = React.useState([]);
   
   function addNote(newNote) {
-    setNotes(prevNotes => [...prevNotes, newNote]);
+    if (newNote.title.length > 0 && newNote.content.length > 0) {
+      setNotes(prevNotes => [...prevNotes, newNote]);
+    }
+    // setNotes(prevNotes => [...prevNotes, newNote]);
   }
   
   function handleDelete(id) {
