@@ -1,19 +1,21 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Header from "./header/Header";
 import Footer from "./footer/Footer";
 import Input from "./input/Input";
 import Note from "./note/Note";
 
 function App() {
-  
   const [notes, setNotes] = React.useState([]);
   
-  function addNote(newNote) {
-    if (newNote.title.length > 0 && newNote.content.length > 0) {
-      setNotes(prevNotes => [...prevNotes, newNote]);
-    }
-    // setNotes(prevNotes => [...prevNotes, newNote]);
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch("http://localhost:5000/api/notes");
+      const data = await result.json();
+      setNotes(data);
+    };
+    fetchData().then(r => console.log(r));
+  }, []);
+  
   
   function handleDelete(id) {
     setNotes(prevNotes => prevNotes.filter((_, index) => index !== id));
@@ -22,8 +24,8 @@ function App() {
   return (
     <div>
       <Header />
-      <Input onAddNote={addNote} />
-      {notes.map((note, index) => <Note key={index} id={index} note={note} onDelete={handleDelete}/>)}
+      <Input />
+      {notes.map(note => <Note key={note._id} id={note._id} note={note} onDelete={handleDelete}/>)}
       <Footer />
     </div>
   );

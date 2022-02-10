@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { Fab, Zoom } from '@mui/material';
 
-function Input(props) {
+function Input() {
   
   const [note, setNote] = useState({
     title: '',
@@ -12,21 +12,33 @@ function Input(props) {
   const [isExpanded, setIsExpanded] = useState(false);
   
   const { title, content } = note;
-  const {onAddNote} = props;
   
   function handleChanges(event) {
     const {name, value} = event.target;
     setNote(prevNote => ({...prevNote, [name]: value}));
   }
   
-  function handleSubmit(event) {
-    onAddNote({title: title.trim(), content: content.trim()});
-    setNote({
-      title: '',
-      content: ''
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log(note);
+    fetch('http://localhost:5000/api/notes', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        ContentType: 'application/json'
+      },
+      body: JSON.stringify({
+        title: title.trim(),
+        content: content.trim()
+      })
+    }).then(response => {
+      console.log(response);
+    }).then(()=>{
+      window.location.reload()
+    }).catch(err => {
+      console.log(err);
     });
-    event.preventDefault();
-  }
+  };
   
   function expand() {
     setIsExpanded(!isExpanded);
@@ -38,7 +50,6 @@ function Input(props) {
         {isExpanded && (
           <input
             name="title"
-            onClick={expand}
             onChange={handleChanges}
             value={title}
             placeholder="Title"
