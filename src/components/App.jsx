@@ -6,21 +6,21 @@ import Note from "./note/Note";
 
 function App() {
   const [notes, setNotes] = React.useState([]);
-  
+
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetch("http://localhost:5000/api/notes");
+      const result = await fetch("https://dipoengoro-notes-api.herokuapp.com/api/notes");
       const data = await result.json();
       setNotes(data);
     };
     fetchData().then(r => console.log(r));
   }, []);
-  
-  
+
+
   function handleDelete(id) {
     setNotes(prevNotes => prevNotes.filter((_, index) => index !== id));
   }
-  
+
   return (
     <div>
       <Header />

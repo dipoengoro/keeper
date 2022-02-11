@@ -3,25 +3,25 @@ import AddIcon from '@mui/icons-material/Add';
 import { Fab, Zoom } from '@mui/material';
 
 function Input() {
-  
+
   const [note, setNote] = useState({
     title: '',
     content: ''
   });
-  
+
   const [isExpanded, setIsExpanded] = useState(false);
-  
+
   const { title, content } = note;
-  
+
   function handleChanges(event) {
     const {name, value} = event.target;
     setNote(prevNote => ({...prevNote, [name]: value}));
   }
-  
+
   const handleSubmit = e => {
     e.preventDefault();
     console.log(note);
-    fetch('http://localhost:5000/api/notes', {
+    fetch('https://dipoengoro-notes-api.herokuapp.com/api/notes', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -39,11 +39,11 @@ function Input() {
       console.log(err);
     });
   };
-  
+
   function expand() {
     setIsExpanded(!isExpanded);
   }
-  
+
   return (
     <div>
       <form onSubmit={handleSubmit} className="create-note">
